@@ -97,6 +97,8 @@ static const char *selsink[] = {"selsink.sh", NULL};
 
 static const char *poweroff[] = {"shutdown-script.sh", NULL};
 
+static const char *screenfull[] = {"flameshot", "full", NULL};
+static const char *screengui[] = {"flameshot", "gui", NULL};
 
 static const Key keys[] = {
     /* modifier                	key        	function        argument */
@@ -126,6 +128,11 @@ static const Key keys[] = {
     {MODKEY,	 		XK_d, 		spawn, 		{.v = dmenucmd}},
     {MODKEY,		     	XK_n,		spawn,		{.v = nmcli_dmenu}},
     {MODKEY,		        XK_a,		spawn,		{.v = selsink}},
+
+    /* Screenshot */
+    {ALTKEY,		        XK_s,		spawn,		{.v = screenfull}},
+    {ALTKEY,		        XK_g,		spawn,		{.v = screengui}},
+
 
     /* System */
     {MODKEY,		     	XK_x,		spawn,		{.v = poweroff}},
