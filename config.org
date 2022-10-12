@@ -1,5 +1,53 @@
-#include <X11/XF86keysym.h>
+#+title: AstroDWM config
+#+date: Wed Oct 12 18:56:59 2022
+#+property: header-args :tangle config.h
+#+auto_tangle: t
 
+* Table of Contents :TOC:
+- [[#description][Description]]
+  - [[#maintainers][Maintainers]]
+- [[#configuration][Configuration]]
+  - [[#libraries][Libraries]]
+  - [[#variables][Variables]]
+  - [[#fonts][Fonts]]
+  - [[#colors][Colors]]
+  - [[#tags][Tags]]
+  - [[#windows-rules][Windows rules]]
+  - [[#layouts][Layouts]]
+  - [[#modkeys][Modkeys]]
+  - [[#commands][Commands]]
+  - [[#keys][Keys]]
+  - [[#buttons][Buttons]]
+
+* Description
++ Personal patch and config of suckless' dwm
+
+** Maintainers
++ @lucashuguet (Author)
+
+* Configuration
+** Libraries
+I use XF86keysym.h to map volume keys and launch keys
+
+#+begin_src c
+#include <X11/XF86keysym.h>
+#+end_src
+
+** Variables
+| Variable                | Description                                        |
+|-------------------------+----------------------------------------------------|
+| borderpx                | window border                                      |
+| gappx                   | gap between windows                                |
+| snap                    | snap on the edge of the screen                     |
+| systraypinning          | systray follow selected monitor                    |
+| systrayonleft           | systray on the left                                |
+| systrayspacing          | spacing between systray icons                      |
+| systraypinningfailfirst | display on the first or last monitor               |
+| showsystray             | show system tray                                   |
+| showbar                 | show bar                                           |
+| topbar                  | display the bar on top or the bottom of the screen |
+
+#+begin_src c
 static const unsigned int borderpx = 1;
 static const unsigned int gappx = 10;
 static const unsigned int snap = 32;
@@ -10,10 +58,20 @@ static const int systraypinningfailfirst = 1;
 static const int showsystray = 1;
 static const int showbar = 1;
 static const int topbar = 1;
+#+end_src
 
+** Fonts
+I use Fantasque Sans Mono Nerd Font as main font and Font Awesome for unicodes
+
+#+begin_src c
 static const char *fonts[] = {"FantasqueSansMono Nerd Font:size=12", "fontawesome:size=12"};
 static const char dmenufont[] = "FantasqueSansMono Nerd Font:size=12";
+#+end_src
 
+** Colors
+I use pink and blue theme for the bar and window border
+
+#+begin_src c
 static const char col_gray1[] = "#eeeeee";
 static const char col_gray2[] = "#444444";
 static const char col_white[] = "#ffffff";
@@ -25,15 +83,40 @@ static const char *colors[][3] = {
     [SchemeNorm] = {col_white, col_blue, col_gray2},
     [SchemeSel] = {col_gray1, col_pink, col_pink},
 };
+#+end_src
 
+** Tags
+#+begin_src c
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+#+end_src
 
+** Windows rules
+mpv and feh are floating by default. mpv spawn on all tags.
+
+#+begin_src c
 static const Rule rules[] = {
     /* class      instance    title       tags mask     isfloating   monitor */
     {"mpv", NULL, NULL, ~0, True, -1},
     {"feh", NULL, NULL, 0, True, -1},
 };
+#+end_src
 
+** Layouts
+| Variable       | Description                      |
+|----------------+----------------------------------|
+| mfact          | factor of master area size       |
+| nmmaster       | number of master windows         |
+| resizehints    | respect size hints               |
+| lockfullscreen | force focus on fullscreen window |
+
+| Layout  | Description              |
+|---------+--------------------------|
+| tile    | default tiling layout    |
+| NULL    | floating layout          |
+| monocle | windows on top with tabs |
+
+
+#+begin_src c
 static const float mfact = 0.55;
 static const int nmaster = 1;
 static const int resizehints = 1;
@@ -45,7 +128,12 @@ static const Layout layouts[] = {
     {"><>", NULL},
     {"[M]", monocle},
 };
+#+end_src
 
+** Modkeys
+default mod key is the super key
+
+#+begin_src c
 #define MODKEY Mod4Mask
 #define ALTKEY Mod1Mask
 #define CONTROL ControlMask
@@ -54,7 +142,36 @@ static const Layout layouts[] = {
       {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
       {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
       {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+#+end_src
 
+** Commands
+| Command     | Description                                            |
+|-------------+--------------------------------------------------------|
+| termcmd     | spawn alacritty                                        |
+| pavu        | spawn pavucontrol                                      |
+| blueman     | spawn blueman-manager                                  |
+| browser     | spawn firefox                                          |
+| doom        | spawn emacsclient                                      |
+| pcmanfm     | spawn pcmanfm                                          |
+| bpytop      | run bpytop command inside alacritty                    |
+| nwggrid     | spawn nwggrid                                          |
+| downvol     | decrease volume by 5%                                  |
+| mutevol     | toggle mute                                            |
+| upvol       | increase volume by 5%                                  |
+| light_up    | increase brightness by 5%                              |
+| light_down  | decrease brightness by 5%                              |
+| aura_up     | increase rgb keyboard brightness                       |
+| aura_down   | decrease rgb keyboard brightness                       |
+| aura_rgb    | set keyboard colors to rgb cyles                       |
+| aura_pink   | set keyboard colors to pink                            |
+| dmenucmd    | dmenu run command                                      |
+| nmcli_dmenu | dmenu script that help connect to the wifi             |
+| selsink     | dmenu script that help switch default sink             |
+| poweroff    | dmenu script that poweroff, reboot or suspend computer |
+| screenfull  | take fullscreen screenshot                             |
+| screengui   | take screenshot with flameshot gui                     |
+
+#+begin_src c
 static const char *termcmd[] = {"alacritty", NULL};
 static const char *pavu[] = {"pavucontrol", NULL};
 static const char *blueman[] = {"blueman-manager", NULL};
@@ -87,7 +204,30 @@ static const char *poweroff[] = {"shutdown-script.sh", NULL};
 
 static const char *screenfull[] = {"flameshot", "full", NULL};
 static const char *screengui[] = {"flameshot", "gui", NULL};
+#+end_src
 
+** Keys
+| Keys                | Command        |
+|---------------------+----------------|
+| ALT + e             | doom           |
+| ALT + f             | browser        |
+| ALT + g             | screengui      |
+| ALT + s             | screenfull     |
+| SUPER + a           | selsink        |
+| SUPER + b           | togglebar      |
+| SUPER + d           | dmenucmd       |
+| SUPER + e           | pcmanfm        |
+| SUPER + ENTER       | termcmd        |
+| SUPER + n           | nmcli_dmenu    |
+| SUPER + q           | killclient     |
+| SUPER + SHIFT + d   | nwggrid        |
+| SUPER + SHIFT + ESC | bpytop         |
+| SUPER + SHIFT + SPC | togglefloating |
+| SUPER + SHIFT + x   | quit           |
+| SUPER + v           | pavu           |
+| SUPER + x           | poweroff       |
+
+#+begin_src c
 static const Key keys[] = {
     /* modifier key function argument */
 
@@ -150,7 +290,10 @@ static const Key keys[] = {
         TAGKEYS(XK_apostrophe, 3) TAGKEYS(XK_parenleft, 4) TAGKEYS(XK_minus, 5)
             TAGKEYS(XK_egrave, 6) TAGKEYS(XK_underscore, 7)
                 TAGKEYS(XK_ccedilla, 8)};
+#+end_src
 
+** Buttons
+#+begin_src c
 static const Button buttons[] = {
     /* click event mask button function argument */
     {ClkLtSymbol, 0, Button1, setlayout, {0}},
@@ -165,3 +308,4 @@ static const Button buttons[] = {
     {ClkTagBar, MODKEY, Button1, tag, {0}},
     {ClkTagBar, MODKEY, Button3, toggletag, {0}},
 };
+#+end_src
