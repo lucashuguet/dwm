@@ -79,8 +79,8 @@ static const char *aura_rgb[] = {"rogauracore", "rainbow_cycle", "2", NULL};
 static const char *aura_pink[] = {"rogauracore", "pink", NULL};
 
 static const char *dmenucmd[] = {"dmenu_run", "-fn", dmenufont, "-nb",
-                                 col_blue,    "-nf", col_white, "-sb",
-                                 col_pink,    "-sf", col_gray1, NULL};
+                                 normbgcolor, "-nf", normfgcolor, "-sb",
+                                 selbordercolor, "-sf", selfgcolor, NULL};
 static const char *nmcli_dmenu[] = {"nmcli_dmenu", NULL};
 static const char *selsink[] = {"selsink.sh", NULL};
 
