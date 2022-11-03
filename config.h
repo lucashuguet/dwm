@@ -1,29 +1,30 @@
 #include <X11/XF86keysym.h>
 
-static const unsigned int borderpx = 1;
+static unsigned int borderpx = 1;
+static unsigned int snap = 32;
 static const unsigned int gappx = 10;
-static const unsigned int snap = 32;
 static const unsigned int systraypinning = 0;
 static const unsigned int systrayonleft = 0;
 static const unsigned int systrayspacing = 2;
 static const int systraypinningfailfirst = 1;
 static const int showsystray = 1;
-static const int showbar = 1;
-static const int topbar = 1;
+static int showbar = 1;
+static int topbar = 1;
 
 static const char *fonts[] = {"FantasqueSansMono Nerd Font:size=12", "fontawesome:size=12"};
 static const char dmenufont[] = "FantasqueSansMono Nerd Font:size=12";
 
-static const char col_gray1[] = "#eeeeee";
-static const char col_gray2[] = "#444444";
-static const char col_white[] = "#ffffff";
-static const char col_pink[] = "#e44eaf";
-static const char col_blue[] = "#1a1fd2";
+static char normbgcolor[] = "#222222";
+static char normbordercolor[] = "#444444";
+static char normfgcolor[] = "#bbbbbb";
+static char selfgcolor[] = "#eeeeee";
+static char selbgcolor[] = "#005577";
+static char selbordercolor[] = "#005577";
 
-static const char *colors[][3] = {
-    /*             fg          bg        border   */
-    [SchemeNorm] = {col_white, col_blue, col_gray2},
-    [SchemeSel] = {col_gray1, col_pink, col_pink},
+static char *colors[][3] = {
+    /*               fg           bg           border   */
+    [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
+    [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor},
 };
 
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
@@ -34,9 +35,9 @@ static const Rule rules[] = {
     {"feh", NULL, NULL, 0, True, -1},
 };
 
-static const float mfact = 0.55;
-static const int nmaster = 1;
-static const int resizehints = 1;
+static float mfact = 0.55;
+static int nmaster = 1;
+static int resizehints = 1;
 static const int lockfullscreen = 1;
 
 static const Layout layouts[] = {
@@ -87,6 +88,22 @@ static const char *poweroff[] = {"shutdown-script.sh", NULL};
 
 static const char *screenfull[] = {"flameshot", "full", NULL};
 static const char *screengui[] = {"flameshot", "gui", NULL};
+
+ResourcePref resources[] = {
+    {"normbgcolor", STRING, &normbgcolor},
+    {"normbordercolor", STRING, &normbordercolor},
+    {"normfgcolor", STRING, &normfgcolor},
+    {"selbgcolor", STRING, &selbgcolor},
+    {"selbordercolor", STRING, &selbordercolor},
+    {"selfgcolor", STRING, &selfgcolor},
+    {"borderpx", INTEGER, &borderpx},
+    {"snap", INTEGER, &snap},
+    {"showbar", INTEGER, &showbar},
+    {"topbar", INTEGER, &topbar},
+    {"nmaster", INTEGER, &nmaster},
+    {"resizehints", INTEGER, &resizehints},
+    {"mfact", FLOAT, &mfact},
+};
 
 static const Key keys[] = {
     /* modifier key function argument */
