@@ -12,14 +12,13 @@ static int showbar = 1;
 static int topbar = 1;
 
 static const char *fonts[] = {"FantasqueSansMono Nerd Font:size=12", "fontawesome:size=12"};
-static const char dmenufont[] = "FantasqueSansMono Nerd Font:size=12";
 
-static char normbgcolor[] = "#222222";
+static char normfgcolor[] = "#ffffff";
+static char normbgcolor[] = "#1a1fd2";
 static char normbordercolor[] = "#444444";
-static char normfgcolor[] = "#bbbbbb";
 static char selfgcolor[] = "#eeeeee";
-static char selbgcolor[] = "#005577";
-static char selbordercolor[] = "#005577";
+static char selbgcolor[] = "#e44eaf";
+static char selbordercolor[] = "#e44eaf";
 
 static char *colors[][3] = {
     /*               fg           bg           border   */
@@ -56,13 +55,14 @@ static const Layout layouts[] = {
       {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
       {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
-static const char *termcmd[] = {"alacritty", NULL};
+static const char *termcmd[] = {"st", NULL};
 static const char *pavu[] = {"pavucontrol", NULL};
 static const char *blueman[] = {"blueman-manager", NULL};
 static const char *browser[] = {"firefox", NULL};
 static const char *doom[] = {"emacsclient", "-c", "-a", "emacs", NULL};
 static const char *pcmanfm[] = {"pcmanfm", NULL};
-static const char *bpytop[] = {"alacritty", "-e", "bpytop", NULL};
+static const char *bpytop[] = {"st", "-e", "bpytop", NULL};
+static const char *ncmpcpp[] = {"st", "-e", "ncmpcpp", NULL};
 static const char *nwggrid[] = {"nwggrid", "-p", "-o", "0.4", NULL};
 
 static const char *downvol[] = {"voldown.sh", NULL};
@@ -78,13 +78,13 @@ static const char *aura_down[] = {"rogauracore", "brightness", "0", NULL};
 static const char *aura_rgb[] = {"rogauracore", "rainbow_cycle", "2", NULL};
 static const char *aura_pink[] = {"rogauracore", "pink", NULL};
 
-static const char *dmenucmd[] = {"dmenu_run", "-fn", dmenufont, "-nb",
-                                 normbgcolor, "-nf", normfgcolor, "-sb",
-                                 selbordercolor, "-sf", selfgcolor, NULL};
+static const char *dmenucmd[] = {"dmenu_run", NULL};
 static const char *nmcli_dmenu[] = {"nmcli_dmenu", NULL};
 static const char *selsink[] = {"selsink.sh", NULL};
+static const char *dmenutheme[] = {"dmenutheme.sh", NULL};
 
 static const char *poweroff[] = {"shutdown-script.sh", NULL};
+static const char *stop[] = {"killall", "-p", "dwm", "autostart.sh", NULL};
 
 static const char *screenfull[] = {"flameshot", "full", NULL};
 static const char *screengui[] = {"flameshot", "gui", NULL};
@@ -113,6 +113,7 @@ static const Key keys[] = {
     {MODKEY, XK_v, spawn, {.v = pavu}},
     {MODKEY | ShiftMask, XK_b, spawn, {.v = blueman}},
     {CONTROL | ShiftMask, XK_Escape, spawn, {.v = bpytop}},
+    {MODKEY | ShiftMask, XK_n, spawn, {.v = ncmpcpp}},
     {MODKEY, XK_e, spawn, {.v = pcmanfm}},
     {MODKEY | ShiftMask, XK_d, spawn, {.v = nwggrid}},
     {ALTKEY, XK_f, spawn, {.v = browser}},
@@ -133,13 +134,16 @@ static const Key keys[] = {
     {MODKEY, XK_d, spawn, {.v = dmenucmd}},
     {MODKEY, XK_n, spawn, {.v = nmcli_dmenu}},
     {MODKEY, XK_a, spawn, {.v = selsink}},
+    {MODKEY | ShiftMask, XK_t, spawn, {.v = dmenutheme}},
 
     /* Screenshot */
     {ALTKEY, XK_s, spawn, {.v = screenfull}},
     {ALTKEY, XK_g, spawn, {.v = screengui}},
 
     /* System */
+    {MODKEY, XK_r, quit, {0}},
     {MODKEY, XK_x, spawn, {.v = poweroff}},
+    {MODKEY | ShiftMask, XK_x, spawn, {.v = stop}},
 
     /* Tags and stack management */
     {MODKEY, XK_b, togglebar, {0}},
@@ -162,7 +166,6 @@ static const Key keys[] = {
     {MODKEY, XK_semicolon, focusmon, {.i = +1}},
     {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
     {MODKEY | ShiftMask, XK_semicolon, tagmon, {.i = +1}},
-    {MODKEY | ShiftMask, XK_x, quit, {0}},
     TAGKEYS(XK_ampersand, 0) TAGKEYS(XK_eacute, 1) TAGKEYS(XK_quotedbl, 2)
         TAGKEYS(XK_apostrophe, 3) TAGKEYS(XK_parenleft, 4) TAGKEYS(XK_minus, 5)
             TAGKEYS(XK_egrave, 6) TAGKEYS(XK_underscore, 7)
