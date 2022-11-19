@@ -96,9 +96,8 @@ mpv and feh are floating by default. mpv spawn on all tags.
 
 #+begin_src c
 static const Rule rules[] = {
-    /* class      instance    title       tags mask     isfloating   monitor */
-    {"mpv", NULL, NULL, ~0, True, -1},
-    {"feh", NULL, NULL, 0, True, -1},
+    /* class | instance | title | tags | mask | isfloating | canfocus | monitor */
+    {"mpv", NULL, NULL, ~0, True, False, -1},
 };
 #+end_src
 
@@ -180,7 +179,7 @@ static const char *termcmd[] = {"st", NULL};
 static const char *pavu[] = {"pavucontrol", NULL};
 static const char *blueman[] = {"blueman-manager", NULL};
 static const char *browser[] = {"firefox", NULL};
-static const char *doom[] = {"emacsclient", "-c", "-a", "emacs", NULL};
+static const char *doom[] = {"emacsclient", "-c", NULL};
 static const char *pcmanfm[] = {"pcmanfm", NULL};
 static const char *bpytop[] = {"st", "-e", "bpytop", NULL};
 static const char *ncmpcpp[] = {"st", "-e", "ncmpcpp", NULL};

@@ -11,7 +11,8 @@ static const int showsystray = 1;
 static int showbar = 1;
 static int topbar = 1;
 
-static const char *fonts[] = {"FantasqueSansMono Nerd Font:size=12", "fontawesome:size=12"};
+static const char *fonts[] = {"FantasqueSansMono Nerd Font:size=12",
+                              "fontawesome:size=12"};
 
 static char normfgcolor[] = "#ffffff";
 static char normbgcolor[] = "#1a1fd2";
@@ -29,9 +30,9 @@ static char *colors[][3] = {
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 static const Rule rules[] = {
-    /* class      instance    title       tags mask     isfloating   monitor */
-    {"mpv", NULL, NULL, ~0, True, -1},
-    {"feh", NULL, NULL, 0, True, -1},
+    /* class | instance | title | tags | mask | isfloating | canfocus | monitor
+     */
+    {"mpv", NULL, NULL, ~0, True, True, -1},
 };
 
 static float mfact = 0.55;
@@ -59,7 +60,7 @@ static const char *termcmd[] = {"st", NULL};
 static const char *pavu[] = {"pavucontrol", NULL};
 static const char *blueman[] = {"blueman-manager", NULL};
 static const char *browser[] = {"firefox", NULL};
-static const char *doom[] = {"emacsclient", "-c", "-a", "emacs", NULL};
+static const char *doom[] = {"emacsclient", "-c", NULL};
 static const char *pcmanfm[] = {"pcmanfm", NULL};
 static const char *bpytop[] = {"st", "-e", "bpytop", NULL};
 static const char *ncmpcpp[] = {"st", "-e", "ncmpcpp", NULL};
