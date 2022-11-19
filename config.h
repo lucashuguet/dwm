@@ -11,8 +11,7 @@ static const int showsystray = 1;
 static int showbar = 1;
 static int topbar = 1;
 
-static const char *fonts[] = {"FantasqueSansMono Nerd Font:size=12",
-                              "fontawesome:size=12"};
+static const char *fonts[] = {"FantasqueSansMono Nerd Font:size=12", "fontawesome:size=12"};
 
 static char normfgcolor[] = "#ffffff";
 static char normbgcolor[] = "#1a1fd2";
@@ -30,12 +29,11 @@ static char *colors[][3] = {
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 static const Rule rules[] = {
-    /* class | instance | title | tags | mask | isfloating | canfocus | monitor
-     */
+    /* class | instance | title | tags | mask | isfloating | canfocus | monitor */
     {"mpv", NULL, NULL, ~0, True, True, -1},
 };
 
-static float mfact = 0.55;
+static float mfact = 0.5;
 static int nmaster = 1;
 static int resizehints = 1;
 static const int lockfullscreen = 1;

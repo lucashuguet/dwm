@@ -97,7 +97,7 @@ mpv and feh are floating by default. mpv spawn on all tags.
 #+begin_src c
 static const Rule rules[] = {
     /* class | instance | title | tags | mask | isfloating | canfocus | monitor */
-    {"mpv", NULL, NULL, ~0, True, False, -1},
+    {"mpv", NULL, NULL, ~0, True, True, -1},
 };
 #+end_src
 
@@ -117,7 +117,7 @@ static const Rule rules[] = {
 
 
 #+begin_src c
-static float mfact = 0.55;
+static float mfact = 0.5;
 static int nmaster = 1;
 static int resizehints = 1;
 static const int lockfullscreen = 1;
