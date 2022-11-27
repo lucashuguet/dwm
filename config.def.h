@@ -38,7 +38,8 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class      instance    title       tags mask     isfloating  canfocus  monitor */
+    /* class      instance    title       tags mask     isfloating  canfocus
+       monitor */
     {"Gimp", NULL, NULL, 0, 1, 1, -1},
     {"Firefox", NULL, NULL, 1 << 8, 0, 1, -1},
 };
@@ -107,6 +108,10 @@ static const Key keys[] = {
     {MODKEY, XK_d, incnmaster, {.i = -1}},
     {MODKEY, XK_h, setmfact, {.f = -0.05}},
     {MODKEY, XK_l, setmfact, {.f = +0.05}},
+    {MODKEY, XK_o, setmfact, {.f = 0.00}},
+    {MODKEY | ShiftMask, XK_h, setcfact, {.f = +0.25}},
+    {MODKEY | ShiftMask, XK_l, setcfact, {.f = -0.25}},
+    {MODKEY | ShiftMask, XK_o, setcfact, {.f = 0.00}},
     {MODKEY, XK_Return, zoom, {0}},
     {MODKEY, XK_Tab, view, {0}},
     {MODKEY | ShiftMask, XK_c, killclient, {0}},
