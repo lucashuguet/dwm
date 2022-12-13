@@ -43,6 +43,8 @@ static const Layout layouts[] = {
     {"[]=", tile},
     {"><>", NULL},
     {"[M]", monocle},
+    {"|M|", centeredmaster},
+    {">M>", centeredfloatingmaster},
 };
 
 #define MODKEY Mod4Mask
@@ -81,6 +83,8 @@ static const char *dmenucmd[] = {"dmenu_run", NULL};
 static const char *nmcli_dmenu[] = {"nmcli_dmenu", NULL};
 static const char *selsink[] = {"selsink.sh", NULL};
 static const char *dmenutheme[] = {"dmenutheme.sh", NULL};
+static const char *dunicode[] = {"dunicode.sh", NULL};
+static const char *randomwall[] = {"randomwallpaper.sh", NULL};
 
 static const char *poweroff[] = {"shutdown-script.sh", NULL};
 static const char *stop[] = {"killall", "-p", "dwm", "autostart.sh", NULL};
@@ -134,10 +138,12 @@ static const Key keys[] = {
     {MODKEY, XK_n, spawn, {.v = nmcli_dmenu}},
     {MODKEY, XK_a, spawn, {.v = selsink}},
     {MODKEY | ShiftMask, XK_t, spawn, {.v = dmenutheme}},
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = dunicode}},
+    {MODKEY | ShiftMask, XK_r, spawn, {.v = randomwall}},
 
     /* Screenshot */
     {ALTKEY, XK_s, spawn, {.v = screenfull}},
-    {ALTKEY, XK_g, spawn, {.v = screengui}},
+    {ALTKEY | ShiftMask, XK_s, spawn, {.v = screengui}},
 
     /* System */
     {MODKEY, XK_r, quit, {0}},
@@ -146,21 +152,24 @@ static const Key keys[] = {
 
     /* Tags and stack management */
     {MODKEY, XK_b, togglebar, {0}},
-    {MODKEY | ShiftMask, XK_j, focusstack, {.i = +1}},
-    {MODKEY | ShiftMask, XK_k, focusstack, {.i = -1}},
-    {MODKEY, XK_i, incnmaster, {.i = +1}},
-    {MODKEY | ShiftMask, XK_i, incnmaster, {.i = -1}},
+    {ALTKEY, XK_Return, zoom, {0}},
+    {MODKEY, XK_j, focusstack, {.i = +1}},
+    {MODKEY, XK_k, focusstack, {.i = -1}},
+    {MODKEY, XK_m, incnmaster, {.i = +1}},
+    {MODKEY | ShiftMask, XK_m, incnmaster, {.i = -1}},
     {MODKEY, XK_h, setmfact, {.f = -0.05}},
     {MODKEY, XK_l, setmfact, {.f = +0.05}},
-    {MODKEY, XK_k, setcfact, {.f = -0.05}},
-    {MODKEY, XK_j, setcfact, {.f = +0.05}},
-    {MODKEY, XK_o, setcfact, {.f = 0.00}},
+    {MODKEY | ShiftMask, XK_k, setcfact, {.f = -0.05}},
+    {MODKEY | ShiftMask, XK_j, setcfact, {.f = +0.05}},
+    {MODKEY | ShiftMask, XK_o, setcfact, {.f = 0.00}},
     {MODKEY, XK_s, togglecanfocusfloating, {0}},
     {MODKEY, XK_Tab, view, {0}},
     {MODKEY, XK_q, killclient, {0}},
     {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
-    {MODKEY | ShiftMask, XK_f, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
+    {MODKEY, XK_y, setlayout, {.v = &layouts[1]}},
+    {MODKEY, XK_u, setlayout, {.v = &layouts[2]}},
+    {MODKEY, XK_i, setlayout, {.v = &layouts[3]}},
+    {MODKEY, XK_o, setlayout, {.v = &layouts[4]}},
     {MODKEY, XK_f, fullscreen, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     {MODKEY, XK_agrave, view, {.ui = ~0}},
@@ -169,10 +178,15 @@ static const Key keys[] = {
     {MODKEY, XK_semicolon, focusmon, {.i = +1}},
     {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
     {MODKEY | ShiftMask, XK_semicolon, tagmon, {.i = +1}},
-    TAGKEYS(XK_ampersand, 0) TAGKEYS(XK_eacute, 1) TAGKEYS(XK_quotedbl, 2)
-        TAGKEYS(XK_apostrophe, 3) TAGKEYS(XK_parenleft, 4) TAGKEYS(XK_minus, 5)
-            TAGKEYS(XK_egrave, 6) TAGKEYS(XK_underscore, 7)
-                TAGKEYS(XK_ccedilla, 8)};
+    TAGKEYS(XK_ampersand, 0)
+    TAGKEYS(XK_eacute, 1)
+    TAGKEYS(XK_quotedbl, 2)
+    TAGKEYS(XK_apostrophe, 3)
+    TAGKEYS(XK_parenleft, 4)
+    TAGKEYS(XK_minus, 5)
+    TAGKEYS(XK_egrave, 6)
+    TAGKEYS(XK_underscore, 7)
+    TAGKEYS(XK_ccedilla, 8)};
 
 static const Button buttons[] = {
     /* click event mask button function argument */
