@@ -8,6 +8,7 @@ static const unsigned int systrayonleft = 0;
 static const unsigned int systrayspacing = 2;
 static const int systraypinningfailfirst = 1;
 static const int showsystray = 1;
+static const int swallowfloating = 0;
 static int showbar = 1;
 static int topbar = 1;
 
@@ -29,8 +30,10 @@ static char *colors[][3] = {
 static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
 static const Rule rules[] = {
-    /* class | instance | title | tags | mask | isfloating | canfocus | monitor */
-    {"mpv", NULL, NULL, ~0, True, True, -1},
+    /* class | instance | title | tags mask | isfloating | isterminal | noswallow | canfocus | monitor | */
+    {"mpv", NULL, NULL, ~0, 1, 0, -1, 1, -1},
+    {"St", NULL, NULL, 0, 0, 1, 0, 1, -1},
+    {NULL, NULL, "Event Tester", 0, 0, 0, 1, 1, -1}, /* xev */
 };
 
 static float mfact = 0.5;
