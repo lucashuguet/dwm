@@ -1,5 +1,4 @@
-#+title: AstroDWM config
-#+date: Wed Oct 12 18:56:59 2022
+#+title:dwm config
 #+property: header-args :tangle config.h
 #+auto_tangle: t
 
@@ -49,7 +48,7 @@ I use XF86keysym.h to map volume keys and launch keys
 | topbar                  | display the bar on top or the bottom of the screen |
 
 #+begin_src c
-static unsigned int borderpx = 1;
+static unsigned int borderpx = 2;
 static unsigned int snap = 32;
 static const unsigned int gappx = 10;
 static const unsigned int systraypinning = 0;
@@ -57,7 +56,7 @@ static const unsigned int systrayonleft = 0;
 static const unsigned int systrayspacing = 2;
 static const int systraypinningfailfirst = 1;
 static const int showsystray = 1;
-static const int swallowfloating = 1;
+static const int swallowfloating = 0;
 static int showbar = 1;
 static int topbar = 1;
 #+end_src
@@ -93,7 +92,7 @@ static const char *tags[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 #+end_src
 
 ** Windows rules
-mpv and feh are floating by default. mpv spawn on all tags.
+mpv spawn as floating window on all tags. st is terminal used for swallow
 
 #+begin_src c
 static const Rule rules[] = {
@@ -157,7 +156,7 @@ default mod key is the super key
 | termcmd     | spawn st                                               |
 | pavu        | spawn pavucontrol                                      |
 | blueman     | spawn blueman-manager                                  |
-| browser     | spawn firefox                                          |
+| firefox     | spawn firefox                                          |
 | qute        | spawn qutebrowser                                      |
 | emacs       | spawn emacs                                            |
 | pcmanfm     | spawn pcmanfm                                          |
@@ -187,12 +186,13 @@ default mod key is the super key
 static const char *termcmd[] = {"st", NULL};
 static const char *pavu[] = {"pavucontrol", NULL};
 static const char *blueman[] = {"blueman-manager", NULL};
-static const char *browser[] = {"firefox", NULL};
+static const char *firefox[] = {"firefox", NULL};
 static const char *qute[] = {"qutebrowser", NULL};
 static const char *emacs[] = {"emacsclient", "-c", NULL};
 static const char *pcmanfm[] = {"pcmanfm", NULL};
 static const char *bpytop[] = {"st", "-e", "bpytop", NULL};
 static const char *ncmpcpp[] = {"st", "-e", "ncmpcpp", NULL};
+static const char *fzf[] = {"st", "-e", "fzfo.sh", NULL};
 static const char *nwggrid[] = {"nwggrid", "-p", "-o", "0.4", NULL};
 
 static const char *downvol[] = {"voldown.sh", NULL};
@@ -248,10 +248,11 @@ ResourcePref resources[] = {
 | Keys                | Command                       |
 |---------------------+-------------------------------|
 | ALT + e             | emacs                         |
-| ALT + f             | browser                       |
+| ALT + f             | firefox                       |
 | ALT + q             | qute                          |
 | ALT + g             | screengui                     |
 | ALT + s             | screenfull                    |
+| ALT + o             | fzf                           |
 | SUPER + a           | selsink                       |
 | SUPER + b           | togglebar                     |
 | SUPER + d           | dmenucmd                      |
@@ -285,9 +286,10 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_n, spawn, {.v = ncmpcpp}},
     {MODKEY, XK_e, spawn, {.v = pcmanfm}},
     {MODKEY | ShiftMask, XK_d, spawn, {.v = nwggrid}},
-    {ALTKEY, XK_f, spawn, {.v = browser}},
+    {ALTKEY, XK_f, spawn, {.v = firefox}},
     {ALTKEY, XK_q, spawn, {.v = qute}},
     {ALTKEY, XK_e, spawn, {.v = emacs}},
+    {ALTKEY, XK_o, spawn, {.v = fzf}},
 
     /* Multimedia */
     {0, XF86XK_AudioLowerVolume, spawn, {.v = downvol}},

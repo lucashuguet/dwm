@@ -1,6 +1,6 @@
 #include <X11/XF86keysym.h>
 
-static unsigned int borderpx = 1;
+static unsigned int borderpx = 2;
 static unsigned int snap = 32;
 static const unsigned int gappx = 10;
 static const unsigned int systraypinning = 0;
@@ -8,7 +8,7 @@ static const unsigned int systrayonleft = 0;
 static const unsigned int systrayspacing = 2;
 static const int systraypinningfailfirst = 1;
 static const int showsystray = 1;
-static const int swallowfloating = 1;
+static const int swallowfloating = 0;
 static int showbar = 1;
 static int topbar = 1;
 
@@ -62,12 +62,13 @@ static const Layout layouts[] = {
 static const char *termcmd[] = {"st", NULL};
 static const char *pavu[] = {"pavucontrol", NULL};
 static const char *blueman[] = {"blueman-manager", NULL};
-static const char *browser[] = {"firefox", NULL};
+static const char *firefox[] = {"firefox", NULL};
 static const char *qute[] = {"qutebrowser", NULL};
 static const char *emacs[] = {"emacsclient", "-c", NULL};
 static const char *pcmanfm[] = {"pcmanfm", NULL};
 static const char *bpytop[] = {"st", "-e", "bpytop", NULL};
 static const char *ncmpcpp[] = {"st", "-e", "ncmpcpp", NULL};
+static const char *fzf[] = {"st", "-e", "fzfo.sh", NULL};
 static const char *nwggrid[] = {"nwggrid", "-p", "-o", "0.4", NULL};
 
 static const char *downvol[] = {"voldown.sh", NULL};
@@ -124,9 +125,10 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_n, spawn, {.v = ncmpcpp}},
     {MODKEY, XK_e, spawn, {.v = pcmanfm}},
     {MODKEY | ShiftMask, XK_d, spawn, {.v = nwggrid}},
-    {ALTKEY, XK_f, spawn, {.v = browser}},
+    {ALTKEY, XK_f, spawn, {.v = firefox}},
     {ALTKEY, XK_q, spawn, {.v = qute}},
     {ALTKEY, XK_e, spawn, {.v = emacs}},
+    {ALTKEY, XK_o, spawn, {.v = fzf}},
 
     /* Multimedia */
     {0, XF86XK_AudioLowerVolume, spawn, {.v = downvol}},
