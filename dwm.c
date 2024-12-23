@@ -177,6 +177,7 @@ static void grabkeys(void);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
+static void loadtheme(void);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -207,6 +208,7 @@ static void showhide(Client *c);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void theme(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
@@ -1030,6 +1032,47 @@ killclient(const Arg *arg)
 }
 
 void
+loadtheme(void)
+{
+	Display *display;
+	char *type;
+
+	display = XOpenDisplay(NULL);
+        if (display != NULL) {
+		const char *home = getenv("HOME");
+		char theme_path[256];
+		if (snprintf(theme_path, sizeof(theme_path), "%s/.config/colors/suckless.txt", home) >= sizeof(theme_path)) {
+			perror("path_truncated");
+			return;
+		}
+
+		FILE *ptr = fopen(theme_path, "r");
+		if (ptr == NULL) {
+			perror("no_such_file");
+			return;
+		}
+
+		char lines[16][8];
+		int i = 0;
+
+		while (i < 16 && fscanf(ptr, "%7s", lines[i]) == 1) {
+			i++;
+		}
+
+		fclose(ptr);
+
+		strcpy(normbgcolor,     lines[0]);
+		strcpy(normfgcolor,     lines[7]);
+		strcpy(normbordercolor, lines[2]);
+		strcpy(selbgcolor,      lines[7]);
+		strcpy(selfgcolor,      lines[0]);
+		strcpy(selbordercolor,  lines[7]);
+	}
+
+	XCloseDisplay(display);
+}
+
+void
 manage(Window w, XWindowAttributes *wa)
 {
 	Client *c, *t = NULL;
@@ -1686,6 +1729,17 @@ tagmon(const Arg *arg)
 }
 
 void
+theme(const Arg *arg)
+{
+	loadtheme();
+	int i;
+	for (i = 0; i < LENGTH(colors); i++)
+		scheme[i] = drw_scm_create(drw, colors[i], 3);
+	focus(NULL);
+        arrange(NULL);
+}
+
+void
 tile(Monitor *m)
 {
 	unsigned int i, n, h, mw, my, ty;
@@ -2153,6 +2207,8 @@ main(int argc, char *argv[])
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
 	checkotherwm();
+	XrmInitialize();
+	loadtheme();
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
