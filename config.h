@@ -69,8 +69,26 @@ static const char *librewolf[]  = { "librewolf", NULL };
 static const char *emacs[]  = { "emacsclient", "-c", NULL };
 static const char *ncmpcpp[]  = { "alacritty", "-e", "ncmpcpp", NULL };
 
+static const char *volumedown[] = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "1%-", NULL };
+static const char *volumeup[] = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "1%+", NULL };
+static const char *mpdprev[] = { "mpc", "prev", NULL };
+static const char *mpdpause[] = { "mpc", "toggle", NULL };
+static const char *mpdnext[] = { "mpc", "next", NULL };
+
+static const char *lightdown[] = { "light", "-U", "2%", NULL };
+static const char *lightup[] = { "light", "-A", "2%", NULL };
+
 static const Key keys[] = {
 	/* modifier                    key        function        argument */
+	{ NULL,                        XF86XK_AudioLowerVolume, spawn, {.v = volumedown} },
+	{ NULL,                        XF86XK_AudioRaiseVolume, spawn, {.v = volumeup} },
+	{ NULL,                        XF86XK_AudioPrev,        spawn, {.v = mpdprev} },
+	{ NULL,                        XF86XK_AudioPlay,        spawn, {.v = mpdpause} },
+	{ NULL,                        XF86XK_AudioNext,        spawn, {.v = mpdnext} },
+
+	{ NULL,                        XF86XK_MonBrightnessDown, spawn, {.v = lightdown} },
+	{ NULL,                        XF86XK_MonBrightnessUp,   spawn, {.v = lightup} },
+
 	{ SUPER,                       XK_d,      spawn,          {.v = rofi_run } },
 	{ SUPER|ShiftMask,             XK_d,      spawn,          {.v = rofi_drun } },
 	{ SUPER,                       XK_Return, spawn,          {.v = term } },
