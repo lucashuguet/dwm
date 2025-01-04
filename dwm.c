@@ -29,6 +29,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
@@ -195,6 +196,7 @@ static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
 static void run(void);
+static void runautostart(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
@@ -237,7 +239,10 @@ static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 
 /* variables */
+static const char autostartblocksh[] = "autostart_blocking.sh";
+static const char autostartsh[] = "autostart.sh";
 static const char broken[] = "broken";
+static const char dwmdir[] = ".config/dwm";
 static char stext[256];
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
@@ -1441,6 +1446,51 @@ run(void)
 }
 
 void
+runautostart(void)
+{
+	char *pathpfx;
+	char *path;
+	char *home;
+	struct stat sb;
+
+        /* if $HOME is set and not empty, use $HOME/.config/dwm */
+	home = getenv("HOME");
+	if (home != NULL && *home != '\0') {
+		/* space for path segments, separators and nul */
+		pathpfx = ecalloc(1, strlen(home) + strlen(dwmdir) + 2);
+
+		if (sprintf(pathpfx, "%s/%s", home, dwmdir) <= 0) {
+			free(pathpfx);
+			return;
+		}
+	} else {
+		return;
+        }
+
+	/* try the blocking script first */
+	path = ecalloc(1, strlen(pathpfx) + strlen(autostartblocksh) + 2);
+	if (sprintf(path, "%s/%s", pathpfx, autostartblocksh) <= 0) {
+		free(path);
+		free(pathpfx);
+	}
+
+	if (access(path, X_OK) == 0)
+		system(path);
+
+	/* now the non-blocking script */
+	if (sprintf(path, "%s/%s", pathpfx, autostartsh) <= 0) {
+		free(path);
+		free(pathpfx);
+	}
+
+	if (access(path, X_OK) == 0)
+		system(strcat(path, " &"));
+
+	free(pathpfx);
+	free(path);
+}
+
+void
 scan(void)
 {
 	unsigned int i, num;
@@ -2221,6 +2271,7 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
+	runautostart();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
