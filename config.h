@@ -64,10 +64,10 @@ static const Layout layouts[] = {
 static const char *rofi_run[] = { "rofi", "-show", "run", NULL };
 static const char *rofi_drun[] = { "rofi", "-show", "drun", NULL };
 static const char *rofi_theme[] = { "rofitheme", NULL };
-static const char *term[]  = { "alacritty", NULL };
+static const char *term[]  = { "st", NULL };
 static const char *librewolf[]  = { "librewolf", NULL };
 static const char *emacs[]  = { "emacsclient", "-c", NULL };
-static const char *ncmpcpp[]  = { "alacritty", "-e", "ncmpcpp", NULL };
+static const char *ncmpcpp[]  = { "st", "-e", "ncmpcpp", NULL };
 
 static const char *volumedown[] = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "1%-", NULL };
 static const char *volumeup[] = { "wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "1%+", NULL };
